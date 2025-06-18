@@ -74,14 +74,15 @@
 		}
 
 		.info {
-			padding: 5px 5px;
-			font: 14px/16px Arial, Helvetica, sans-serif;
+			padding: 6px 8px;
+			font: 12px Arial, Helvetica, sans-serif;
 			background: white;
 			background: rgba(255, 255, 255, 0.8);
-			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			border-radius: 3px;
+			width: 35vw;
+			height: auto;
 		}
-
 		.info h2 {
 			margin: 0 0 5px;
 			color: #777;
@@ -151,8 +152,11 @@
 			border: 1px solid #ccc;
 			border-radius: 5px;
 			font-size: 11px;
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			width: 35vw;
+			height: auto;
+
+			/* display: grid;
+			grid-template-columns: repeat(2, 1fr); */
 			/* Crea 5 columnas */
 			grid-gap: 0px;
 			/* Espacio entre los elementos */
@@ -170,15 +174,15 @@
 		}
 
 		/* Estilos para los elementos de la leyenda */
-		.legend-item {
+		/* .legend-item {
 			display: inline;
 			align-items: center;
 			justify-content: center;
 			flex-direction: column-reverse;
 			/* Organiza los números debajo de los círculos */
-			font-size: 10px;
+		/*	font-size: 10px;
 			/* Ajusta el tamaño de fuente si es necesario */
-		} 
+	/*	}  */
 		.barrio-label {
 			font-size: 12px;
 			color: #2a2929;
@@ -354,6 +358,19 @@
 		L.control.watermark = function (opts) { return new L.Control.Watermark(opts); }
 		L.control.watermark(position = 'topleft').addTo(map);
 	
+			L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
+	// Insertando un título en el mapa
+		var title = L.control({ position: 'bottomleft' });
+		title.onAdd = function (map) {
+			var div = L.DomUtil.create('div', 'info');
+			div.innerHTML +=
+				'Nota: Los loteos que cuentan con el visado municipal han completado las obras de infraestructura mínimas exigidas por parte del municipio; tras la aprobación y matriculación por parte de la Dirección General de Inmuebles se garantiza la plena seguridad jurídica de la propiedad.';
+			return div;
+		};
+		title.addTo(map);
+
+
+
 	
 		map.addControl(panelLayersBase);
 		// map.addControl(panelLayers);
@@ -398,7 +415,7 @@
 				cacheLocation: true,
 			}).addTo(map);
 
-		L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
+	
 		L.control.zoom({ position: 'topright' }).addTo(map);
 		// Eventos para actualizar los tooltips cuando cambian el zoom o la vista del mapa
 		// map.on('moveend zoomend', actualizarTooltips);
