@@ -55,6 +55,8 @@
 
 	<!-- en la Carpeta DATA estan los js como capas-->
 	<script type="text/javascript" src="data/barrio.js"></script>
+	<script type="text/javascript" src="data/ejido.js"></script>
+	<script type="text/javascript" src="data/puc.js"></script>
 
 	<script type="text/javascript" src="data/loteos_aprobados_seleccion.js"></script>
 
@@ -143,29 +145,26 @@
 			left: 0px !important;
 			z-index: 99999;
 		}
-
-
-		/* Estilos CSS para la leyenda */
-		.info.legend {
+.info.legend {
 			background: white;
-			padding: 10px;
+			padding: 5px;
 			border: 1px solid #ccc;
 			border-radius: 5px;
-			font-size: 12px;
+			font-size: 11px;
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
 			/* Crea 5 columnas */
 			grid-gap: 0px;
 			/* Espacio entre los elementos */
 			align-items: center;
-			text-align: center;
+			text-align: left;
 		}
 
 		/* Estilos para los círculos de colores en la leyenda */
 		.info.legend i {
 			width: 10px;
 			height: 10px;
-			display: -moz-grid-line;
+			display: inline-block;
 			border-radius: 50%;
 			margin-right: 5px;
 		}
@@ -179,8 +178,7 @@
 			/* Organiza los números debajo de los círculos */
 			font-size: 10px;
 			/* Ajusta el tamaño de fuente si es necesario */
-		}
-
+		} 
 		.barrio-label {
 			font-size: 12px;
 			color: #2a2929;
@@ -253,6 +251,33 @@
 
 		);
 
+		//VARIABLES //
+		var Ejido = L.geoJson(ejido, {
+			style: {
+				fillColor: '#2306FD00',
+				weight: 2,
+				opacity: 0.7,
+				color: '#082CF7FF',
+				dashArray: '4',
+				fillOpacity: 0.7,
+			},
+			
+			attribution: '<a href="https://idemsa.municipalidadsalta.gob.ar/">IDEMSa</a>'
+		});
+
+			//VARIABLES //
+		var Puc = L.geoJson(puc, {
+			style: {
+				fillColor: '#F5090900',
+				weight: 2,
+				opacity: 0.7,
+				color: '#BD0404FF',
+				dashArray: '0.5',
+				fillOpacity: 0.7,
+			},
+			
+			attribution: '<a href="https://idemsa.municipalidadsalta.gob.ar/">IDEMSa</a>'
+		});
 
 
 
@@ -261,7 +286,7 @@
 			center: [-24.790195501692253, -65.42084230775552],
 			zoom: 12,
 			zoomControl: false,
-			layers: [argenmap, barrio,]
+			layers: [argenmap, Ejido, Puc, LoteosApro]
 
 		});
 
@@ -291,7 +316,7 @@
 					transparent: true,
 					opacity: 0.5,
 					active: true,
-				
+
 				},
 
 
@@ -321,15 +346,17 @@
 				var img = L.DomUtil.create('img');
 				img.src = 'images/Logo Azul Principal.png';
 				img.style.width = '20vw',
-					img.style.height = 'auto';
+				img.style.height = 'auto';
 				return img;
 			},
 			onRemove: function (map) { },
 		});
 		L.control.watermark = function (opts) { return new L.Control.Watermark(opts); }
 		L.control.watermark(position = 'topleft').addTo(map);
+	
+	
 		map.addControl(panelLayersBase);
-		map.addControl(panelLayers);
+		// map.addControl(panelLayers);
 
 		//fullsrcreen
 		var fullscreen = L.control.fullscreen({
@@ -374,8 +401,8 @@
 		L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
 		L.control.zoom({ position: 'topright' }).addTo(map);
 		// Eventos para actualizar los tooltips cuando cambian el zoom o la vista del mapa
-		map.on('moveend zoomend', actualizarTooltips);
-		
+		// map.on('moveend zoomend', actualizarTooltips);
+
 		createLegendLoteos();
 
 
